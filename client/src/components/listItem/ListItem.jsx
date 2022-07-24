@@ -30,10 +30,10 @@ function ListItem({ index }) {
           </video>
           <div className="info">
             <div className="icons">
-              <PlayArrow />
-              <Add />
-              <ThumbUpAltOutlined />
-              <ThumbDownOutlined />
+              <PlayArrow className="icon" />
+              <Add className="icon" />
+              <ThumbUpAltOutlined className="icon" />
+              <ThumbDownOutlined className="icon" />
             </div>
             <div className="itemInfoTop">
               <span>1 Hour 14 mins</span>
