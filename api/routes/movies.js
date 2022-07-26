@@ -74,13 +74,28 @@ router.get("/random", verify, async (req, res) => {
 });
 
 //GET SINGLE MOVIE
-router.get("/:id", verify, async (req, res) => {
+router.get("/find/:id", verify, async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id);
     res.status(200).json(movie);
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
+  }
+});
+
+//GET ALL MOVIES
+router.get("/", verify, async (req, res) => {
+  if (req.user.isAdmin) {
+    try {
+      const allMovies = await Movie.find({});
+      res.status(200).json(allMovies);
+    } catch (error) {
+      console.log(error);
+      res.status(500).json(error);
+    }
+  } else {
+    res.status(403).json("You do not have permission to do this");
   }
 });
 

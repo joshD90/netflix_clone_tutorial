@@ -6,7 +6,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./list.scss";
 import ListItem from "../listItem/ListItem";
 
-function List() {
+function List({ list }) {
   const listRef = useRef("listRef");
   const [slideNumber, setSlideNumber] = useState(0);
   const [isTransitionEnded, setIsTransitionEnded] = useState(true);
@@ -34,7 +34,7 @@ function List() {
 
   return (
     <div className="list">
-      <span className="listTitle">Continue Watching</span>
+      <span className="listTitle">{list && list.title}</span>
       <div className="wrapper">
         {slideNumber > 0 && (
           <ArrowBackIosOutlined
@@ -45,16 +45,9 @@ function List() {
           />
         )}
         <div className="container" ref={listRef}>
-          <ListItem index={0} />
-          <ListItem index={1} />
-          <ListItem index={2} />
-          <ListItem index={3} />
-          <ListItem index={4} />
-          <ListItem index={5} />
-          <ListItem index={6} />
-          <ListItem index={7} />
-          <ListItem index={8} />
-          <ListItem index={9} />
+          {list.content.map((item, index) => {
+            return <ListItem index={index} key={index} item={item} />;
+          })}
         </div>
         <ArrowForwardIosOutlined
           className="sliderArrow right"
