@@ -1,9 +1,28 @@
 import "./featured.scss";
-
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { InfoOutlined, PlayArrow } from "@mui/icons-material";
 
 function Featured({ type }) {
+  const [content, setContent] = useState();
+
+  useEffect(() => {
+    const getRandomContent = async () => {
+      try {
+        const res = await axios.get(`/movie/random?type=${type}`, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZTEyNGIzMTA2MzM3NzMwMjI4NDYzMyIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NTg5MjIyMDYsImV4cCI6MTY1OTM1NDIwNn0.mm3LHhFYa1IoHP8sQauS1jq02NrB-eTQr4-M0142RC0",
+          },
+        });
+        setContent(res.data[0]);
+        console.log(res.data, "featured");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRandomContent();
+  }, [type]);
   return (
     <div className="featured">
       {type && (
@@ -27,20 +46,13 @@ function Featured({ type }) {
           </select>
         </div>
       )}
-      <img
-        width="100%"
-        src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300"
-      ></img>
+      <img width="100%" src={content && content.img}></img>
       <div className="info">
         <img
           src="https://www.seekpng.com/png/full/210-2107842_the-matrix-logo-matrix-movie-logo-png.png"
           alt="title"
         ></img>
-        <span className="description">
-          fdsaljfdsa;lkjfdslakjfdslakjfdsl;akj fdlskajfdl ;sajfldsjaf;l
-          djsal;fkjdsaljfldsjafljdsalj fdsalkj fldkjsa l;fdjsa lkjfd slajf dlsaj
-          fldkjsa lj fdlsja
-        </span>
+        <span className="description">{content && content.desc}</span>
         <div className="buttons">
           <button className="play">
             <PlayArrow />

@@ -67,7 +67,7 @@ router.get("/", verify, async (req, res) => {
   if (req.user.isAdmin) {
     try {
       const users = query
-        ? await User.find({}).sort({ _id: -1 }).limit(10)
+        ? await User.find({}).sort({ _id: -1 }).limit(5)
         : await User.find();
       console.log(users[0]);
       res.status(200).json(users);
@@ -81,6 +81,7 @@ router.get("/", verify, async (req, res) => {
 
 //GET USER STATS
 router.get("/stats", async (req, res) => {
+  console.log("stats endpoint hit");
   const today = new Date();
   const lastYear = today.setFullYear(today.setFullYear() - 1);
 

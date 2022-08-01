@@ -44,10 +44,14 @@
     }
 
     .description {
+      font-size: 20px;
       margin: 20px 0px;
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: black;
     }
     .buttons {
       display: flex;
+
       button {
         padding: 10px 20px;
         border: none;

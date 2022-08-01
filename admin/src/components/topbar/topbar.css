@@ -1,0 +1,59 @@
+.topbar {
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.topbarWrapper {
+  height: 100%;
+  padding: 0px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 30px;
+  cursor: pointer;
+  color: darkblue;
+}
+
+.topRight {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.topbarIconContainer {
+  position: relative;
+  cursor: pointer;
+  margin-right: 10px;
+  color: #555;
+}
+
+.topbarIconBadge {
+  background-color: red;
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  top: -5px;
+  right: 0px;
+  font-weight: 900;
+  border-radius: 50%;
+  border: solid 1px #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.topAvatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}

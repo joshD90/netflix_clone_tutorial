@@ -8,7 +8,7 @@ const movieRouter = require("./routes/movies");
 const listRouter = require("./routes/lists");
 
 mongoose.connect(process.env.DATABASE_URL, (err) => {
-  if (err) return console.log(error.message);
+  if (err) return console.log(err.message);
   console.log("Mongodb Atlas Server has been connected");
 });
 
