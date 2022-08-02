@@ -53,6 +53,10 @@
   display: flex;
   justify-content: space-between;
 }
+
+.productInfoKey {
+  margin-right: 20px;
+}
 .productInfoValue {
   font-weight: 300;
 }
@@ -76,7 +80,7 @@
   margin-bottom: 10px;
   color: gray;
 }
-.productFormLeft > label {
+.productFormLeft > input {
   margin-bottom: 10px;
   border: none;
   padding: 5px;
@@ -103,6 +107,9 @@
 .productUpload {
   display: flex;
   align-items: center;
+}
+.productUpload label {
+  cursor: pointer;
 }
 .productButton {
   border: none;

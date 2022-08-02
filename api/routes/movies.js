@@ -36,7 +36,7 @@ router.put("/:id", verify, async (req, res) => {
 });
 
 //DELETE Movie
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verify, async (req, res) => {
   if (!req.user.isAdmin)
     return res
       .status(403)
