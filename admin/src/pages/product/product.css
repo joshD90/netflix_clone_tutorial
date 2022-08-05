@@ -67,6 +67,10 @@
   box-shadow: 0 0 11px -1px;
 }
 
+.editHeader {
+  text-align: center;
+}
+
 .productForm {
   display: flex;
   justify-content: space-between;

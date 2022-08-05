@@ -1,17 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./product.css";
 import { Publish } from "@mui/icons-material";
+import upload from "../../utils/uploadFiles";
 
 function Product() {
   const location = useLocation();
   const movie = location.state;
+  const [movieInfo, setMovieInfo] = useState(movie);
+  const [items, setItems] = useState([]);
+
+  function handleTextChange(e, label) {
+    setMovieInfo((prev) => ({ ...prev, [label]: e.target.value }));
+    console.log(movieInfo);
+  }
+
+  function fileChange(e, label) {
+    setItems((prev) => {
+      return [...prev, { file: e.target.files[0], label: label }];
+    });
+  }
+  //we need to return a promise from upload so we can call it asyncronously
+  // and then await its result and then make an axios call.
+  //We should add a progress bar as well
+  function handleUpdate(e) {
+    e.preventDefault();
+    upload(items, setMovieInfo);
+  }
 
   return (
     <div className="product">
       <div className="productTitleContainer">
         <h1 className="productTitle">Movie</h1>
-        <Link to="/newProduct">
+        <Link to="/newmovie">
           <button className="productAddButton">Create</button>
         </Link>
       </div>
@@ -42,19 +63,47 @@ function Product() {
         </div>
       </div>
       <div className="productBottom">
+        <h3 className="editHeader" onClick={() => console.log(movieInfo)}>
+          Update Movie Details
+        </h3>
         <form action="" className="productForm">
           <div className="productFormLeft">
             <label>Movie Title</label>
-            <input type="text" placeholder={movie.title} />
+            <input
+              type="text"
+              placeholder={movie.title}
+              onChange={(e) => {
+                handleTextChange(e, "title");
+              }}
+            />
             <label>Year</label>
-            <input type="text" placeholder={movie.year} />
+            <input
+              type="text"
+              placeholder={movie.year}
+              onChange={(e) => {
+                handleTextChange(e, "year");
+              }}
+            />
             <label>Genre</label>
-            <input type="text" placeholder={movie.genre} />
-            <label>limit</label>
-            <input type="text" placeholder={movie.limit} />
-            <label>limit</label>
+            <input
+              type="text"
+              placeholder={movie.genre}
+              onChange={(e) => {
+                handleTextChange(e, "genre");
+              }}
+            />
+            <label>Age Limit</label>
+            <input
+              type="text"
+              placeholder={movie.limit}
+              onChange={(e) => {
+                handleTextChange(e, "limit");
+              }}
+            />
+            <label>Trailer</label>
             <input
               type="file"
+              onChange={(e) => fileChange(e, "trailer")}
               placeholder={
                 movie.trailer
                   ? movie.trailer
@@ -64,6 +113,7 @@ function Product() {
             <label>Video</label>
             <input
               type="file"
+              onChange={(e) => fileChange(e, "video")}
               placeholder={
                 movie.video
                   ? movie.video
@@ -71,10 +121,16 @@ function Product() {
               }
             />
 
-            <label>Active</label>
-            <select name="active" id="active">
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
+            <label>Is Series</label>
+            <select
+              name="isSeries"
+              id="isSeries"
+              onChange={(e) => {
+                handleTextChange(e, "isSeries");
+              }}
+            >
+              <option value="false">No</option>
+              <option value="true">Yes</option>
             </select>
           </div>
           <div className="productFormRight">
@@ -85,7 +141,9 @@ function Product() {
               </label>
               <input type="file" id="file" style={{ display: "none" }} />
             </div>
-            <button className="productButton">Update</button>
+            <button className="productButton" onClick={handleUpdate}>
+              Update
+            </button>
           </div>
         </form>
       </div>
