@@ -9,6 +9,7 @@ import {
 import "./newProduct.css";
 import { createMovie } from "../../context/movieContext/movieApiCalls";
 import { MovieContext } from "../../context/movieContext/MovieContext";
+import upload from "../../utils/uploadFiles";
 
 function NewProduct() {
   const [movie, setMovie] = useState({});
@@ -36,53 +37,57 @@ function NewProduct() {
     }
   }
 
-  const upload = (items) => {
-    items.forEach((item) => {
-      const fileName = new Date().getTime() + item.label + item.file.name;
-      const fileRef = ref(storage, `items/${fileName}`);
-      const uploadTask = uploadBytesResumable(fileRef, item.file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress} % done`);
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-          }
-        },
-        (error) => {
-          console.log(error, "upload was unsuccessful");
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setMovie((prev) => {
-              return { ...prev, [item.label]: downloadURL };
-            });
+  // const upload = (items) => {
+  //   items.forEach((item) => {
+  //     const fileName = new Date().getTime() + item.label + item.file.name;
+  //     const fileRef = ref(storage, `items/${fileName}`);
+  //     const uploadTask = uploadBytesResumable(fileRef, item.file);
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {
+  //         const progress =
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //         console.log(`Upload is ${progress} % done`);
+  //         switch (snapshot.state) {
+  //           case "paused":
+  //             console.log("Upload is paused");
+  //             break;
+  //           case "running":
+  //             console.log("Upload is running");
+  //             break;
+  //         }
+  //       },
+  //       (error) => {
+  //         console.log(error, "upload was unsuccessful");
+  //       },
+  //       () => {
+  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  //           setMovie((prev) => {
+  //             return { ...prev, [item.label]: downloadURL };
+  //           });
 
-            setUploaded((prev) => prev + 1);
-            console.log("File Available at ", downloadURL);
-          });
-        }
-      );
-    });
-  };
+  //           setUploaded((prev) => prev + 1);
+  //           console.log("File Available at ", downloadURL);
+  //         });
+  //       }
+  //     );
+  //   });
+  // };
 
   const handleUpload = (e) => {
     e.preventDefault();
     console.log(img);
-    upload([
-      { file: img, label: "img" },
-      { file: imgTitle, label: "featureImg" },
-      { file: imgSm, label: "imgSm" },
-      { file: trailer, label: "trailer" },
-      { file: video, label: "video" },
-    ]);
+    upload(
+      [
+        { file: img, label: "img" },
+        { file: imgTitle, label: "featureImg" },
+        { file: imgSm, label: "imgSm" },
+        { file: trailer, label: "trailer" },
+        { file: video, label: "video" },
+      ],
+      setMovie,
+      setUploaded
+    );
   };
 
   const handleSubmit = async (e) => {

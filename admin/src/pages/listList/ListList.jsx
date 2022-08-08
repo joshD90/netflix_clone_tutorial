@@ -1,16 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import "./productList.css";
+import "./listList.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
-import { productRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { MovieContext } from "../../context/movieContext/MovieContext";
-import {
-  getMovies,
-  deleteMovie,
-} from "../../context/movieContext/movieApiCalls";
 
-function ProductList() {
+function ListList() {
   const [data, setData] = useState(productRows);
   const { movies, dispatch } = useContext(MovieContext);
 
@@ -83,4 +77,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default ListList;

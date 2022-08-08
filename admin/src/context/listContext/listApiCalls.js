@@ -1,33 +1,20 @@
-import {
-  getMoviesFailure,
-  getMoviesStart,
-  getMoviesSuccess,
-  deleteMovieFailure,
-  deleteMovieStart,
-  deleteMovieSuccess,
-  createMovieStart,
-  createMovieFailure,
-  createMovieSuccess,
-  updateMovieStart,
-  updateMovieFailure,
-  updateMovieSuccess,
-} from "./MovieActions";
+import { getListsFailure, getListsStart, getListsSuccess } from "./listActions";
 import axios from "axios";
 
-export const getMovies = async (dispatch) => {
-  dispatch(getMoviesStart());
+export const getLists = async (dispatch) => {
+  dispatch(getListsStart());
   const parsedLocalStorage = JSON.parse(localStorage.getItem("user"));
 
   try {
-    const res = await axios.get("/movie/", {
+    const res = await axios.get("/lists/", {
       headers: {
         token: `Bearer ${parsedLocalStorage.accessToken}`,
       },
     });
-    dispatch(getMoviesSuccess(res.data));
+    dispatch(getListsSuccess(res.data));
   } catch (error) {
     console.log(error, "there was an error");
-    dispatch(getMoviesFailure());
+    dispatch(getListsFailure());
   }
 };
 

@@ -5,6 +5,7 @@ import {
   getDownloadURL,
   listAll,
 } from "firebase/storage";
+// we need to be able to wrap this in a promise somehow so that we can call it asyncronously
 
 const upload = (items, setState, setCounter) => {
   items.forEach((item) => {

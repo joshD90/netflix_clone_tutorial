@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./product.css";
 import { Publish } from "@mui/icons-material";
 import upload from "../../utils/uploadFiles";
+import { updateMovie } from "../../context/movieContext/movieApiCalls";
+import { MovieContext } from "../../context/movieContext/MovieContext";
 
 function Product() {
   const location = useLocation();
   const movie = location.state;
   const [movieInfo, setMovieInfo] = useState(movie);
   const [items, setItems] = useState([]);
+  const [uploaded, setUploaded] = useState(0);
+  const { dispatch } = useContext(MovieContext);
 
   function handleTextChange(e, label) {
     setMovieInfo((prev) => ({ ...prev, [label]: e.target.value }));
@@ -20,12 +24,26 @@ function Product() {
       return [...prev, { file: e.target.files[0], label: label }];
     });
   }
+
+  function uploadOrUpdate() {
+    if (items.length === 0) return "update";
+    if (items.length !== 0 && uploaded !== items.length) return "upload";
+    if (items.length !== 0 && uploaded === items.length) return "update";
+  }
+
   //we need to return a promise from upload so we can call it asyncronously
   // and then await its result and then make an axios call.
   //We should add a progress bar as well
-  function handleUpdate(e) {
+  function handleUpload(e) {
     e.preventDefault();
-    upload(items, setMovieInfo);
+    upload(items, setMovieInfo, setUploaded);
+  }
+
+  function handleUpdate(e) {
+    console.log(movie);
+    e.preventDefault();
+    updateMovie(movie._id, movieInfo, dispatch);
+    console.log(MovieContext._currentValue, "MovieContext");
   }
 
   return (
@@ -141,9 +159,15 @@ function Product() {
               </label>
               <input type="file" id="file" style={{ display: "none" }} />
             </div>
-            <button className="productButton" onClick={handleUpdate}>
-              Update
-            </button>
+            {uploadOrUpdate() === "update" ? (
+              <button className="productButton" onClick={handleUpdate}>
+                Update
+              </button>
+            ) : (
+              <button className="productButton" onClick={handleUpload}>
+                Upload
+              </button>
+            )}
           </div>
         </form>
       </div>

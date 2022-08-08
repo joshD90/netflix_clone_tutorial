@@ -1,17 +1,19 @@
 import { Visibility } from "@mui/icons-material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./widgetSmall.css";
 import axios from "axios";
-
-const headers = {
-  headers: {
-    token:
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZTEyNGIzMTA2MzM3NzMwMjI4NDYzMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1OTEzNjc3NSwiZXhwIjoxNjU5NTY4Nzc1fQ.5gQlhJo7gL92PJpeW63nN76C780GwFcPhtGloE2OXWA",
-  },
-};
+import { AuthContext } from "../../context/authContext/AuthContext";
 
 function WidgetSmall() {
   const [newUsers, setNewUsers] = useState([]);
+  const { user } = useContext(AuthContext);
+  console.log(user);
+
+  const headers = {
+    headers: {
+      token: `Bearer ${user.accessToken}`,
+    },
+  };
 
   useEffect(() => {
     const getNewUsers = async () => {

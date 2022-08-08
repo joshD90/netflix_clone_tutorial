@@ -15,7 +15,7 @@ import Login from "./pages/login/Login";
 import Layout from "./components/Layout";
 import { useContext } from "react";
 import { AuthContext } from "./context/authContext/AuthContext";
-import axios from "axios";
+
 import "./app.css";
 
 function App() {
@@ -38,6 +38,7 @@ function App() {
               <Route path="movies/:id" element={<Product />} />
               <Route path="movies" element={<ProductList />} />
               <Route path="newmovie" element={<NewProduct />} />
+              <Route path="lists" element={<MovieList />} />
             </Route>
           ) : (
             <Route path="/" element={<Navigate to="/login" replace />} />
