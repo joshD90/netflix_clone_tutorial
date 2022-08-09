@@ -41,7 +41,7 @@ router.delete("/:id", verify, async (req, res) => {
   if (req.user.isAdmin) {
     try {
       await List.findByIdAndDelete(req.params.id);
-      res.send(200).json("You have successfully deleted this List");
+      res.status(200).json("You have successfully deleted this List");
     } catch (error) {
       console.log(error);
       res.status(500).json(error);

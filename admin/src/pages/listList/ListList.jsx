@@ -3,39 +3,28 @@ import "./listList.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { ListContext } from "../../context/listContext/ListContext";
+import { getLists, deleteList } from "../../context/listContext/listApiCalls";
 
 function ListList() {
-  const [data, setData] = useState(productRows);
-  const { movies, dispatch } = useContext(MovieContext);
+  const [data, setData] = useState();
+  const { lists, dispatch } = useContext(ListContext);
 
   useEffect(() => {
-    getMovies(dispatch);
-    console.log(movies, "in my useeffect product list");
+    getLists(dispatch);
+    console.log("dispatchdependency has changed");
+    console.log(dispatch);
   }, [dispatch]);
 
   const columns = [
-    { field: "_id", headerName: "ID", width: 50 },
+    { field: "_id", headerName: "ID", width: 200 },
     {
-      field: "movie",
-      headerName: "Movie",
-      width: 200,
-      renderCell: (params) => {
-        return (
-          <div className="productListProduct">
-            <img
-              src={params.row.img}
-              alt="Movie Image"
-              className="productListImg"
-            />
-            {params.row.title}
-          </div>
-        );
-      },
+      field: "title",
+      headerName: "Title",
+      width: 150,
     },
     { field: "genre", headerName: "Genre", width: 120 },
-    { field: "year", headerName: "Year", width: 120 },
-    { field: "limit", headerName: "Age Limit", width: 120 },
-    { field: "isSeries", headerName: "Is Series?", width: 120 },
+    { field: "type", headerName: "Type", width: 120 },
     {
       field: "action",
       headerName: "Action",
@@ -43,7 +32,7 @@ function ListList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/movies/" + params.row._id} state={params.row}>
+            <Link to={"/lists/" + params.row._id} state={params.row}>
               <button className="productListEdit">Edit</button>
             </Link>
             <DeleteOutline
@@ -57,14 +46,15 @@ function ListList() {
   ];
 
   function handleDelete(id) {
-    deleteMovie(id, dispatch);
+    deleteList(id, dispatch);
+    console.log(lists);
   }
 
   return (
     <div className="productList">
-      {movies && (
+      {lists && (
         <DataGrid
-          rows={movies}
+          rows={lists}
           columns={columns}
           pageSize={10}
           checkboxSelection
