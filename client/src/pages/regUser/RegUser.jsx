@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./regUser.scss";
 
 function RegUser() {
@@ -6,6 +7,7 @@ function RegUser() {
   const [password, setPassword] = useState("");
   const emailRef = useRef();
   const passwordRef = useRef();
+  const navigate = useNavigate();
 
   const handleStart = () => {
     setEmail(emailRef.current.value);
@@ -26,7 +28,9 @@ function RegUser() {
             alt="netflix logo"
             src="https://www.freepnglogos.com/uploads/netflix-logo-0.png"
           ></img>
-          <button className="loginButton">Sign In</button>
+          <button className="loginButton" onClick={() => navigate("/login")}>
+            Sign In
+          </button>
         </div>
       </div>
       <div className="container">

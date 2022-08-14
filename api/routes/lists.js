@@ -55,17 +55,23 @@ router.delete("/:id", verify, async (req, res) => {
 router.get("/", verify, async (req, res) => {
   const typeQuery = req.query.type;
   const genreQuery = req.query.genre;
+  let typeAdjusted;
+  typeQuery === "series" ? (typeAdjusted = "isSeries") : "";
+  console.log("typeadjusted", typeAdjusted);
+
+  console.log(typeQuery, "Type Query", genreQuery, "genreQuery");
   let list = [];
   try {
     if (typeQuery) {
+      console.log("there has been a type selected");
       if (genreQuery) {
         list = await List.aggregate([
-          { $match: { type: typeQuery, genre: genreQuery } },
+          { $match: { type: typeAdjusted, genre: genreQuery } },
           { $sample: { size: 10 } },
         ]);
       } else {
         list = await List.aggregate([
-          { $match: { type: typeQuery } },
+          { $match: { type: typeAdjusted } },
           { $sample: { size: 10 } },
         ]);
       }
@@ -78,7 +84,7 @@ router.get("/", verify, async (req, res) => {
   } catch (error) {
     return res.status(500).json(error);
   }
-
+  console.log(list);
   res.status(200).json(list);
 });
 

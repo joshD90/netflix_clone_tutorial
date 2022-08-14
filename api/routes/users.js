@@ -20,9 +20,7 @@ router.put("/:id", verify, async (req, res) => {
         },
         { new: true }
       );
-
       const { password, ...restOfUser } = updatedUser._doc;
-      console.log(restOfUser, "put rest of user");
       res.status(200).json(restOfUser);
     } catch (error) {
       console.log(error);
@@ -38,7 +36,6 @@ router.delete("/:id", verify, async (req, res) => {
   if (req.user.id === req.params.id || req.user.isAdmin) {
     try {
       await User.findByIdAndDelete(req.params.id);
-
       res.status(200).json("You have Successfully Deleted This User");
     } catch (error) {
       console.log(error);
@@ -69,7 +66,6 @@ router.get("/", verify, async (req, res) => {
       const users = query
         ? await User.find({}).sort({ _id: -1 }).limit(5)
         : await User.find();
-      console.log(users[0]);
       res.status(200).json(users);
     } catch (error) {
       res.status(500).json(error);
@@ -81,7 +77,6 @@ router.get("/", verify, async (req, res) => {
 
 //GET USER STATS
 router.get("/stats", async (req, res) => {
-  console.log("stats endpoint hit");
   const today = new Date();
   const lastYear = today.setFullYear(today.setFullYear() - 1);
 

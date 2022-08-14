@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import "./home.css";
 import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
 import Chart from "../../components/chart/Chart";
@@ -6,9 +6,11 @@ import { userData } from "../../dummyData";
 import WidgetSmall from "../../components/widgetSmall/WidgetSmall";
 import WidgetLarge from "../../components/widgetLarge/WidgetLarge";
 import axios from "axios";
+import { AuthContext } from "../../context/authContext/AuthContext";
 
 function Home() {
   const [userStats, setUserStats] = useState([]);
+  const { user } = useContext(AuthContext);
   const MONTHS = useMemo(() => {
     return [
       "Jan",
@@ -28,8 +30,7 @@ function Home() {
 
   const headers = {
     headers: {
-      token:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZTEyNGIzMTA2MzM3NzMwMjI4NDYzMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1OTEzNjc3NSwiZXhwIjoxNjU5NTY4Nzc1fQ.5gQlhJo7gL92PJpeW63nN76C780GwFcPhtGloE2OXWA",
+      token: `Bearer ${user.accessToken}`,
     },
   };
   useEffect(() => {

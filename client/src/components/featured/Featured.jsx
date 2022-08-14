@@ -1,18 +1,20 @@
 import "./featured.scss";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import { InfoOutlined, PlayArrow } from "@mui/icons-material";
+import { AuthContext } from "../../context/authContext/AuthContext";
 
 function Featured({ type }) {
   const [content, setContent] = useState();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const getRandomContent = async () => {
       try {
         const res = await axios.get(`/movie/random?type=${type}`, {
           headers: {
-            token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZTEyNGIzMTA2MzM3NzMwMjI4NDYzMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1OTcxNjg3MCwiZXhwIjoxNjYwMTQ4ODcwfQ.bijhgGHKojmQBXaYqkPVn6vrIOnI626Ck75Ol9FodT0",
+            token: `Bearer ${user.accessToken}`,
           },
         });
         setContent(res.data[0]);
@@ -54,10 +56,12 @@ function Featured({ type }) {
         ></img>
         <span className="description">{content && content.desc}</span>
         <div className="buttons">
-          <button className="play">
-            <PlayArrow />
-            <span>Play</span>
-          </button>
+          <Link to="/watch" state={content}>
+            <button className="play">
+              <PlayArrow />
+              <span>Play</span>
+            </button>
+          </Link>
           <button className="more-info">
             <InfoOutlined />
             <span>Info</span>

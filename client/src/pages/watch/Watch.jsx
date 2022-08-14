@@ -22,7 +22,7 @@ function Watch() {
         progress="true"
         controls
         // should be src={location.state.}
-        src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        src={location.state.video}
       ></video>
     </div>
   );

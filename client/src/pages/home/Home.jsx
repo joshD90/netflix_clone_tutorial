@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./home.scss";
 import Navbar from "../../components/navbar/Navbar";
 import Featured from "../../components/featured/Featured";
 import List from "../../components/list/List";
+import { AuthContext } from "../../context/authContext/AuthContext";
 import axios from "axios";
 
 export default function Home({ type }) {
   const [lists, setLists] = useState([]);
   const [genre, setGenre] = useState(null);
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     const getRandomLists = async () => {
       try {
@@ -17,8 +20,7 @@ export default function Home({ type }) {
           }`,
           {
             headers: {
-              token:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZTEyNGIzMTA2MzM3NzMwMjI4NDYzMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1OTcxNjg3MCwiZXhwIjoxNjYwMTQ4ODcwfQ.bijhgGHKojmQBXaYqkPVn6vrIOnI626Ck75Ol9FodT0",
+              token: `Bearer ${user.accessToken}`,
             },
           }
         );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./listItem.scss";
 import {
   PlayArrow,
@@ -8,6 +8,7 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/authContext/AuthContext";
 
 function ListItem({ index, item }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -15,17 +16,18 @@ function ListItem({ index, item }) {
     "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
   );
   const [movieDetails, setMovieDetails] = useState();
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const getMovie = async () => {
       try {
         const res = await axios.get(`/movie/find/${item}`, {
           headers: {
-            token:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZTEyNGIzMTA2MzM3NzMwMjI4NDYzMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1OTcxNjg3MCwiZXhwIjoxNjYwMTQ4ODcwfQ.bijhgGHKojmQBXaYqkPVn6vrIOnI626Ck75Ol9FodT0",
+            token: `Bearer ${user.accessToken}`,
           },
         });
         setMovieDetails(res.data);
+        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -47,7 +49,14 @@ function ListItem({ index, item }) {
         {isHovered && (
           <>
             <video autoPlay loop>
-              <source src={trailer} type="video/mp4"></source>
+              <source
+                src={
+                  movieDetails && movieDetails.trailer
+                    ? movieDetails.trailer
+                    : trailer
+                }
+                type="video/mp4"
+              ></source>
             </video>
             <div className="info">
               <div className="icons">
