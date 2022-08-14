@@ -31,7 +31,6 @@ function NewList() {
     e.preventDefault();
     try {
       await createList(list, dispatch);
-      console.log(list);
       navigate(`/lists`);
     } catch (error) {
       console.log(error);

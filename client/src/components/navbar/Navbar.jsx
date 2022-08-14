@@ -1,15 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./navbar.scss";
 import { Search, NotificationAdd, ArrowDropDown } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext/AuthContext";
+import { logoutCall } from "../../context/authContext/authApiCalls";
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
     return () => (window.onscroll = null);
   };
+
+  async function handleLogout() {
+    try {
+      await logoutCall(dispatch);
+      console.log(user, "navbar user after logout");
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className={isScrolled ? "navbar scrolled" : "navbar"}>
@@ -43,7 +57,7 @@ function Navbar() {
             <ArrowDropDown className="icon" />
             <div className="options">
               <span>Settings</span>
-              <span>Logout</span>
+              <span onClick={handleLogout}>Logout</span>
             </div>
           </div>
         </div>

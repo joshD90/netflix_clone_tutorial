@@ -9,6 +9,7 @@ import { getLists, deleteList } from "../../context/listContext/listApiCalls";
 function ListList() {
   const [data, setData] = useState();
   const { lists, dispatch } = useContext(ListContext);
+  console.log(lists);
 
   useEffect(() => {
     getLists(dispatch);
@@ -56,10 +57,10 @@ function ListList() {
         <DataGrid
           rows={lists}
           columns={columns}
-          pageSize={10}
+          pageSize={9}
           checkboxSelection
           disableSelectionOnClick
-          rowsPerPageOptions={[10]}
+          rowsPerPageOptions={[9]}
           getRowId={(r) => r._id}
         />
       )}

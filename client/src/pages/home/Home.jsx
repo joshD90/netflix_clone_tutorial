@@ -10,7 +10,7 @@ export default function Home({ type }) {
   const [lists, setLists] = useState([]);
   const [genre, setGenre] = useState(null);
   const { user } = useContext(AuthContext);
-
+  console.log(user, "homepage user");
   useEffect(() => {
     const getRandomLists = async () => {
       try {
@@ -24,7 +24,7 @@ export default function Home({ type }) {
             },
           }
         );
-        console.log(res.data);
+
         setLists(res.data);
       } catch (error) {
         console.log(error);

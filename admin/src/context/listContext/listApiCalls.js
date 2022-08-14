@@ -53,6 +53,7 @@ export const createList = (list, dispatch) => {
       const res = await axios.post("/list/", list, {
         headers: { token: "Bearer " + parsedLocalStorage.accessToken },
       });
+      console.log(res.data, "response from createList");
       resolve(dispatch(createListSuccess(res.data)));
     } catch (error) {
       reject(dispatch(createListFailure()));

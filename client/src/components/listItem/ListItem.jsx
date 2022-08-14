@@ -27,7 +27,6 @@ function ListItem({ index, item }) {
           },
         });
         setMovieDetails(res.data);
-        console.log(res.data);
       } catch (error) {
         console.log(error);
       }

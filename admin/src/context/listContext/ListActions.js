@@ -31,7 +31,7 @@ export const createListStart = () => ({
 
 export const createListSuccess = (list) => ({
   type: "CREATE_LIST_SUCCESS",
-  paload: list,
+  payload: list,
 });
 
 export const createListFailure = () => ({
